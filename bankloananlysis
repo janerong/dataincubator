@@ -1,0 +1,128 @@
+data2014=read.csv("AMA_PUDB_EXPORT_123114.csv")
+row2014=nrow(data2014)
+col2014=ncol(data2014)
+rate2014=mean(data2014$Rate)
+rate2014
+cscore2014=mean(data2014$Borrower.Credit.Score)
+cscore2014
+amount2014=mean(data2014$Amount)
+amount2014
+library(plyr)
+library(dplyr)
+library(data.table)
+cityvsIncome2014=aggregate(Income ~ FHLBankID, data2014, function(x) mean(x) )
+head(cityvsIncome2014)
+cityvsRate2014=aggregate(Rate ~ FHLBankID, data2014, function(x) mean(x) )
+head(cityvsRate2014)
+cityvsAmount2014=aggregate(Amount ~ FHLBankID, data2014, function(x) mean(x) )
+head(cityvsAmount2014)
+cityvsAri2014=merge(cityvsRate2014, cityvsIncome2014)
+cityvsAri2014=merge(cityvsAri2014, cityvsAmount2014)
+cityvsAri2014
+racevsCS2014=aggregate(Borrower.Credit.Score ~ BoRace, data2014, function(x) mean(x) )
+racevsCS2014
+racevsRate2014=aggregate(Rate ~ BoRace, data2014, function(x) mean(x) )
+racevsRate2014
+racevsIncome2014=aggregate(Income ~ BoRace, data2014, function(x) mean(x) )
+racevsIncome2014
+racevsIncome2014median=aggregate(Income ~ BoRace, data2014, function(x) median(x) )
+racevsIncome2014
+racevsIncome2014median
+racevsAmount2014=aggregate(Amount ~ BoRace, data2014, function(x) mean(x) )
+racevsTable2014=merge(racevsAmount2014,racevsIncome2014)
+racevsTable2014
+racevsTable2014=merge(racevsTable2014,racevsRate2014)
+racevsTable2014=merge(racevsTable2014,racevsCS2014)
+racevsTable2014
+ddply(data2014, .(BoRace), nrow)
+Asianpercentage=840/row2014
+Asianpercentage
+ddply(data2014, .(CoRace), nrow)
+cityvsborrows2014=select(data2014, FHLBankID, BoRace, CoRace)
+head(cityvsborrows2014)
+cityvsborrows2014_2=subset(cityvsborrows2014, BoRace<=5)
+#getrid of 7
+cityvsborrows2014_3=subset(cityvsborrows2014_2, CoRace<=5)
+head(cityvsborrows2014_3)
+nrow(cityvsborrows2014_3)
+cityvsborrows2014_4=subset(cityvsborrows2014_3, BoRace-CoRace!=0)
+nrow(cityvsborrows2014_4)
+head(cityvsborrows2014_4)
+ddply(data, .(BoRace), nrow)
+intermarriage2014=aggregate(BoRace ~ FHLBankID, cityvsborrows2014_4, function(x) length(x) )
+intermarriage2014
+data2014=read.csv("AMA_PUDB_EXPORT_123114.csv")
+data2013=read.csv("AMA_PUDB_EXPORT_123113.csv")
+data2012=read.csv("AMA_PUDB_EXPORT_123112.csv")
+data2011=read.csv("AMA_PUDB_EXPORT_123111.csv")
+data2010=read.csv("AMA_PUDB_EXPORT_123110.csv")
+data2009=read.csv("AMA_PUDB_EXPORT_123109.csv")
+row2013=nrow(data2013)
+row2013
+row2012=nrow(data2012)
+row2011=nrow(data2011)
+row2010=nrow(data2010)
+row2009=nrow(data2009)
+row2012
+row2011
+row2010
+row2009
+col2013=ncol(data2013)
+col2013
+col2012=ncol(data2012)
+col2012
+col2011=ncol(data2011)
+col2011
+col2010=ncol(data2010)
+col2010
+col2009=ncol(data2009)
+col2009
+rate2013=mean(data2013$Rate)
+rate2012=mean(data2012$Rate)
+rate2011=mean(data2011$Rate)
+rate2010=mean(data2010$Rate)
+rate2009=mean(data2009$Rate)
+rate2013
+rate2012
+rate2011
+rate2010
+rate2009
+cscore2013=mean(data2013$Borrower.Credit.Score)
+cscore2012=mean(data2012$Borrower.Credit.Score)
+cscore2011=mean(data2011$Borrower.Credit.Score)
+cscore2010=mean(data2010$Borrower.Credit.Score)
+cscore2009=mean(data2009$Borrower.Credit.Score)
+cscore2013
+cscore2012
+cscore2011
+cscore2010
+cscore2009
+amount2013=mean(data2013$Amount)
+amount2012=mean(data2012$Amount)
+amount2011=mean(data2011$Amount)
+amount2010=mean(data2010$Amount)
+amount2009=mean(data2009$Amount)
+amount2013
+amount2012
+amount2011
+amount2010
+amount2009
+table09_14=buratio=data.frame(matrix(NA, nrow=6, ncol=4))
+table09_14
+colnames(table09_14)[1] ="Year"
+table09_14
+colnames(table09_14)[2] ="Rate"
+colnames(table09_14)[3] ="Amount"
+colnames(table09_14)[4] ="Credit Score"
+table09_14[1,] =c(2009, rate2009, amount2009, cscore2009)
+table09_14[2,] =c(2010, rate2010, amount2010, cscore2010)
+table09_14[3,] =c(2011, rate2011, amount2011, cscore2011)
+table09_14[4,] =c(2012, rate2012, amount2012, cscore2012)
+table09_14[5,] =c(2013, rate2013, amount2013, cscore2013)
+table09_14[6,] =c(2014, rate2014, amount2014, cscore2014)
+table09_14
+plot(table09_14$Year, table09_14$Rate)
+plot(table09_14$Year, table09_14$Rate, type = "l")
+plot(table09_14$Year, table09_14$Amount, type = "l")
+plot(table09_14$Year, table09_14$`Credit Score`, type = "l")
+plot(table09_14$Rate, table09_14$`Credit Score`)
